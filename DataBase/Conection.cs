@@ -38,6 +38,26 @@ namespace DataBase
                 throw ex;
             }
         }
+        public bool ExecuteAction()
+        {
+            _command.Connection = _connection;
+            try
+            {
+                _connection.Open();
+
+                var state = _command.ExecuteNonQuery() > 0;
+                return state;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public void SetParameter(string parameter, object value)
+        {
+            _command.Parameters.AddWithValue(parameter, value);
+        }
         public void CloseConnection()
         {
             try
