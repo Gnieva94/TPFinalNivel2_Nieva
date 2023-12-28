@@ -18,7 +18,6 @@ namespace Negocio
         public List<Articulo> GetAll()
         {
 			var list = new List<Articulo>();
-			//var conection = new Conection();
 			try
 			{
 				conection.SetQuery("SELECT A.Id AId,A.Codigo ACod,A.Nombre ANom,A.Descripcion ADes,A.IdMarca AIdMarca,M.Descripcion MDes,A.IdCategoria AIdCat,C.Descripcion as CDes,A.ImagenUrl AImgUrl,A.Precio APrecio FROM ARTICULOS as A INNER JOIN CATEGORIAS as C ON A.IdCategoria = C.Id INNER JOIN MARCAS as M ON A.IdMarca = M.Id");
@@ -37,7 +36,7 @@ namespace Negocio
 					articulo.Categoria.Id = (int)conection.Reader["AIdCat"];
 					articulo.Categoria.Descripcion = (string)conection.Reader["CDes"];
 					articulo.ImagenUrl = (string)conection.Reader["AImgUrl"];
-					articulo.Precio = (Decimal)conection.Reader["APrecio"];
+					articulo.Precio = Math.Round(Convert.ToDecimal(conection.Reader["APrecio"]), 2);
 					list.Add(articulo);
 				}
 				return list;
@@ -54,7 +53,6 @@ namespace Negocio
         }
 		public bool Insert(Articulo nuevo)
 		{
-            //var conection = new Conection();
             try
             {
 				conection.SetQuery("INSERT INTO ARTICULOS VALUES(@Codigo,@Nombre,@Descripcion,@IdMarca,@IdCategoria,@ImagenUrl,@Precio)");
@@ -79,7 +77,6 @@ namespace Negocio
 
 		public bool Modify(Articulo articulo)
 		{
-            //var conection = new Conection();
             try
             {
 				conection.SetQuery("UPDATE ARTICULOS SET Codigo = @Codigo, Nombre = @Nombre, Descripcion = @Descripcion, IdMarca = @IdMarca, IdCategoria = @IdCategoria, ImagenUrl = @ImagenUrl, Precio = @Precio WHERE Id = @Id");
