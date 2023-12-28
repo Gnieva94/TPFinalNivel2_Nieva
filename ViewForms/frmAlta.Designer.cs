@@ -60,6 +60,7 @@
             // tbxCodigo
             // 
             this.tbxCodigo.Location = new System.Drawing.Point(105, 13);
+            this.tbxCodigo.MaxLength = 50;
             this.tbxCodigo.Name = "tbxCodigo";
             this.tbxCodigo.Size = new System.Drawing.Size(145, 20);
             this.tbxCodigo.TabIndex = 0;
@@ -67,6 +68,7 @@
             // tbxNombre
             // 
             this.tbxNombre.Location = new System.Drawing.Point(105, 36);
+            this.tbxNombre.MaxLength = 50;
             this.tbxNombre.Name = "tbxNombre";
             this.tbxNombre.Size = new System.Drawing.Size(145, 20);
             this.tbxNombre.TabIndex = 1;
@@ -83,8 +85,11 @@
             // tbxDescripcion
             // 
             this.tbxDescripcion.Location = new System.Drawing.Point(105, 59);
+            this.tbxDescripcion.MaxLength = 150;
+            this.tbxDescripcion.Multiline = true;
             this.tbxDescripcion.Name = "tbxDescripcion";
-            this.tbxDescripcion.Size = new System.Drawing.Size(145, 20);
+            this.tbxDescripcion.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tbxDescripcion.Size = new System.Drawing.Size(145, 87);
             this.tbxDescripcion.TabIndex = 2;
             // 
             // lblDescripcion
@@ -98,7 +103,8 @@
             // 
             // tbxImagenUrl
             // 
-            this.tbxImagenUrl.Location = new System.Drawing.Point(105, 137);
+            this.tbxImagenUrl.Location = new System.Drawing.Point(105, 206);
+            this.tbxImagenUrl.MaxLength = 1000;
             this.tbxImagenUrl.Name = "tbxImagenUrl";
             this.tbxImagenUrl.Size = new System.Drawing.Size(145, 20);
             this.tbxImagenUrl.TabIndex = 5;
@@ -107,7 +113,7 @@
             // lblImagenUrl
             // 
             this.lblImagenUrl.AutoSize = true;
-            this.lblImagenUrl.Location = new System.Drawing.Point(34, 140);
+            this.lblImagenUrl.Location = new System.Drawing.Point(34, 209);
             this.lblImagenUrl.Name = "lblImagenUrl";
             this.lblImagenUrl.Size = new System.Drawing.Size(45, 13);
             this.lblImagenUrl.TabIndex = 6;
@@ -115,7 +121,7 @@
             // 
             // tbxPrecio
             // 
-            this.tbxPrecio.Location = new System.Drawing.Point(105, 163);
+            this.tbxPrecio.Location = new System.Drawing.Point(105, 232);
             this.tbxPrecio.Name = "tbxPrecio";
             this.tbxPrecio.Size = new System.Drawing.Size(145, 20);
             this.tbxPrecio.TabIndex = 6;
@@ -123,7 +129,7 @@
             // lblPrecio
             // 
             this.lblPrecio.AutoSize = true;
-            this.lblPrecio.Location = new System.Drawing.Point(39, 166);
+            this.lblPrecio.Location = new System.Drawing.Point(39, 235);
             this.lblPrecio.Name = "lblPrecio";
             this.lblPrecio.Size = new System.Drawing.Size(40, 13);
             this.lblPrecio.TabIndex = 8;
@@ -132,7 +138,7 @@
             // lblMarca
             // 
             this.lblMarca.AutoSize = true;
-            this.lblMarca.Location = new System.Drawing.Point(39, 86);
+            this.lblMarca.Location = new System.Drawing.Point(39, 155);
             this.lblMarca.Name = "lblMarca";
             this.lblMarca.Size = new System.Drawing.Size(40, 13);
             this.lblMarca.TabIndex = 10;
@@ -141,7 +147,7 @@
             // lblCategoria
             // 
             this.lblCategoria.AutoSize = true;
-            this.lblCategoria.Location = new System.Drawing.Point(22, 113);
+            this.lblCategoria.Location = new System.Drawing.Point(22, 182);
             this.lblCategoria.Name = "lblCategoria";
             this.lblCategoria.Size = new System.Drawing.Size(57, 13);
             this.lblCategoria.TabIndex = 11;
@@ -151,7 +157,7 @@
             // 
             this.cbxMarca.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxMarca.FormattingEnabled = true;
-            this.cbxMarca.Location = new System.Drawing.Point(105, 83);
+            this.cbxMarca.Location = new System.Drawing.Point(105, 152);
             this.cbxMarca.Name = "cbxMarca";
             this.cbxMarca.Size = new System.Drawing.Size(145, 21);
             this.cbxMarca.TabIndex = 3;
@@ -160,14 +166,14 @@
             // 
             this.cbxCategoria.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxCategoria.FormattingEnabled = true;
-            this.cbxCategoria.Location = new System.Drawing.Point(105, 110);
+            this.cbxCategoria.Location = new System.Drawing.Point(105, 179);
             this.cbxCategoria.Name = "cbxCategoria";
             this.cbxCategoria.Size = new System.Drawing.Size(145, 21);
             this.cbxCategoria.TabIndex = 4;
             // 
             // btnAceptar
             // 
-            this.btnAceptar.Location = new System.Drawing.Point(42, 217);
+            this.btnAceptar.Location = new System.Drawing.Point(42, 286);
             this.btnAceptar.Name = "btnAceptar";
             this.btnAceptar.Size = new System.Drawing.Size(75, 23);
             this.btnAceptar.TabIndex = 7;
@@ -177,7 +183,7 @@
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(175, 217);
+            this.btnCancelar.Location = new System.Drawing.Point(175, 286);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(75, 23);
             this.btnCancelar.TabIndex = 8;
@@ -199,7 +205,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.ClientSize = new System.Drawing.Size(470, 276);
+            this.ClientSize = new System.Drawing.Size(470, 359);
             this.Controls.Add(this.pbxArticulo);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnAceptar);

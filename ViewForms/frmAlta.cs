@@ -15,15 +15,26 @@ namespace ViewForms
     public partial class frmAlta : Form
     {
         private Articulo _articulo = null;
+        private bool _detalle = false;
+        private bool _insert = false;
+        private bool _modify = false;
         public frmAlta()
         {
             InitializeComponent();
         }
-        public frmAlta(Articulo articulo)
+        public frmAlta(Articulo articulo, bool detalle = false)
         {
             InitializeComponent();
             _articulo = articulo;
-            Text = "Modificar Articulo";
+            if(detalle)
+            {
+                Text = "Detalle Articulo";
+                _detalle = detalle;
+            }
+            else
+            {
+                Text = "Modificar Articulo";
+            }
         }
 
         private void frmAlta_Load(object sender, EventArgs e)
@@ -50,6 +61,29 @@ namespace ViewForms
                     ImageLoad(_articulo.ImagenUrl);
                     tbxPrecio.Text = _articulo.Precio.ToString();
                 }
+                if (_detalle)
+                {
+                    btnAceptar.Visible = false;
+                    //tbxCodigo.Enabled = false;
+                    tbxCodigo.ReadOnly = true;
+                    tbxCodigo.TabStop = false;
+                    //tbxNombre.Enabled = false;
+                    tbxNombre.ReadOnly = true;
+                    tbxNombre.TabStop = false;
+                    //tbxDescripcion.Enabled = false;
+                    tbxDescripcion.ReadOnly = true;
+                    tbxDescripcion.TabStop = false;
+                    cbxCategoria.Enabled = false;
+                    cbxCategoria.TabStop = false;
+                    cbxMarca.Enabled = false;
+                    cbxMarca.TabStop = false;
+                    //tbxImagenUrl.Enabled = false;
+                    tbxImagenUrl.ReadOnly = true;
+                    tbxImagenUrl.TabStop = false;
+                    //tbxPrecio.Enabled = false;
+                    tbxPrecio.ReadOnly = true;
+                    tbxPrecio.TabStop = false;
+                }
             }
             catch (Exception ex)
             {
@@ -67,6 +101,8 @@ namespace ViewForms
             var nArticulo = new NArticulo();
             try
             {
+                _modify = false;
+                _insert = false;
                 if (_articulo == null) _articulo = new Articulo();
                 _articulo.Codigo = tbxCodigo.Text;
                 _articulo.Nombre = tbxNombre.Text;
@@ -77,12 +113,20 @@ namespace ViewForms
                 _articulo.Precio = Decimal.Parse(tbxPrecio.Text);
                 if(_articulo.Id != 0)
                 {
-                    if(nArticulo.Modify(_articulo)) MessageBox.Show("Modificado exitosamente.");
+                    if (nArticulo.Modify(_articulo))
+                    {
+                        MessageBox.Show("Modificado exitosamente.");
+                        _modify = true;
+                    }
                     else MessageBox.Show("No pudo ser modificado el articulo.");
                 }
                 else
                 {
-                    if (nArticulo.Insert(_articulo)) MessageBox.Show("Insertado exitosamente.");
+                    if (nArticulo.Insert(_articulo))
+                    {
+                        MessageBox.Show("Insertado exitosamente.");
+                        _insert = true;
+                    }
                     else MessageBox.Show("No pudo ser insertado el articulo.");
                 }
             }
@@ -108,5 +152,8 @@ namespace ViewForms
         {
             ImageLoad(tbxImagenUrl.Text);
         }
+
+        public bool GetModifyState() { return _modify; }
+        public bool GetInsertState() { return _insert; }
     }
 }
