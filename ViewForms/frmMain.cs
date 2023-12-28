@@ -19,8 +19,7 @@ namespace ViewForms
         private List<Articulo> _listArticulosCategorias;
         private List<Articulo> _listaFiltrada;
         private string _cbxFiltroCat;
-        private bool _insert = false;
-        private bool _modify = false;
+        private bool _action = false;
 
         public frmMain()
         {
@@ -43,56 +42,45 @@ namespace ViewForms
             try
             {
                 _listArticulos = nArticulo.GetAll();
-                if(_listArticulosCategorias != null)
+                if (_action)
                 {
-                    if (_listaFiltrada != null)
+                    if (_cbxFiltroCat != "CATEGORIA")
                     {
-                        if (_modify)
+                        _listArticulosCategorias = _listArticulos.FindAll(x => x.Categoria.Descripcion == _cbxFiltroCat);
+                        if(tbxBuscar.Text != "")
                         {
-                            var filtro = tbxBuscar.Text;
-                            _listaFiltrada = _listArticulosCategorias.FindAll(x => x.Nombre.ToUpper().Contains(filtro.ToUpper()));
+                            _listaFiltrada = _listArticulosCategorias.FindAll(x => x.Nombre.ToUpper().Contains(tbxBuscar.Text.ToUpper()));
+                            dgvArticulos.DataSource = null;
                             dgvArticulos.DataSource = _listaFiltrada;
                         }
-                        if (_insert)
+                        else
                         {
-                            var filtro = tbxBuscar.Text;
-                            _listaFiltrada = _listArticulosCategorias.FindAll(x => x.Nombre.ToUpper().Contains(filtro.ToUpper()));
-                            dgvArticulos.DataSource = _listaFiltrada;
+                            dgvArticulos.DataSource = null;
+                            dgvArticulos.DataSource = _listArticulosCategorias;
                         }
                     }
                     else
                     {
-                        _listArticulosCategorias = _listArticulos.FindAll(x => x.Categoria.Descripcion == _cbxFiltroCat);
-                        dgvArticulos.DataSource = null;
-                        dgvArticulos.DataSource = _listArticulosCategorias;
+                        if (tbxBuscar.Text != "")
+                        {
+                            _listaFiltrada = _listArticulos.FindAll(x => x.Nombre.ToUpper().Contains( tbxBuscar.Text.ToUpper()));
+                            dgvArticulos.DataSource = null;
+                            dgvArticulos.DataSource = _listaFiltrada;
+                        }
+                        else
+                        {
+                            dgvArticulos.DataSource = null;
+                            dgvArticulos.DataSource = _listArticulos;
+                        }
                     }
                 }
                 else
                 {
-                    if (_listaFiltrada != null)
-                    {
-                        if (_modify)
-                        {
-                            var filtro = tbxBuscar.Text;
-                            _listaFiltrada = _listArticulos.FindAll(x => x.Nombre.ToUpper().Contains(filtro.ToUpper()));
-                            dgvArticulos.DataSource = _listaFiltrada;
-                        }
-                        if (_insert)
-                        {
-                            var filtro = tbxBuscar.Text;
-                            _listaFiltrada = _listArticulos.FindAll(x => x.Nombre.ToUpper().Contains(filtro.ToUpper()));
-                            dgvArticulos.DataSource = _listaFiltrada;
-                        }
-                    }
-                    else
-                    {
-                        dgvArticulos.DataSource = _listArticulos;
-                    }
+                    dgvArticulos.DataSource = _listArticulos;
                 }
                 HideColumns();
                 ImageLoad(_listArticulos[0].ImagenUrl);
-                _insert = false;
-                _modify = false;
+                _action = false;
             }
             catch (Exception ex)
             {
@@ -185,9 +173,8 @@ namespace ViewForms
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             var frmAlta = new frmAlta();
-            //if(frmAlta.ShowDialog() != DialogResult.Cancel)
             frmAlta.ShowDialog();
-            _insert = frmAlta.GetInsertState();
+            _action = frmAlta.GetActionState();
             LoadForm();
         }
 
@@ -202,9 +189,8 @@ namespace ViewForms
                 }
                 var seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
                 var frmAlta = new frmAlta(seleccionado);
-                //if(frmAlta.ShowDialog() != DialogResult.Cancel)
                 frmAlta.ShowDialog();
-                _modify = frmAlta.GetModifyState();
+                _action = frmAlta.GetActionState();
                 LoadForm();
             }
             catch (Exception ex)
@@ -227,7 +213,7 @@ namespace ViewForms
                 if (result == DialogResult.Yes)
                 {
                     var seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
-                    nArticulo.Delete(seleccionado);
+                    _action = nArticulo.Delete(seleccionado);
                     LoadForm();
                 }
             }

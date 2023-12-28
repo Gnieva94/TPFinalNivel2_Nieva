@@ -18,6 +18,7 @@ namespace ViewForms
         private bool _detalle = false;
         private bool _insert = false;
         private bool _modify = false;
+        private bool _action = false;
         public frmAlta()
         {
             InitializeComponent();
@@ -43,6 +44,9 @@ namespace ViewForms
             var nMarca = new NMarca();
             try
             {
+                _modify = false;
+                _insert = false;
+                _action = false;
                 cbxCategoria.DataSource = nCategoria.GetAll();
                 cbxCategoria.ValueMember = "Id";
                 cbxCategoria.DisplayMember = "Descripcion";
@@ -101,8 +105,7 @@ namespace ViewForms
             var nArticulo = new NArticulo();
             try
             {
-                _modify = false;
-                _insert = false;
+                
                 if (_articulo == null) _articulo = new Articulo();
                 _articulo.Codigo = tbxCodigo.Text;
                 _articulo.Nombre = tbxNombre.Text;
@@ -117,6 +120,7 @@ namespace ViewForms
                     {
                         MessageBox.Show("Modificado exitosamente.");
                         _modify = true;
+                        _action = true;
                     }
                     else MessageBox.Show("No pudo ser modificado el articulo.");
                 }
@@ -126,6 +130,7 @@ namespace ViewForms
                     {
                         MessageBox.Show("Insertado exitosamente.");
                         _insert = true;
+                        _action = true;
                     }
                     else MessageBox.Show("No pudo ser insertado el articulo.");
                 }
@@ -155,5 +160,7 @@ namespace ViewForms
 
         public bool GetModifyState() { return _modify; }
         public bool GetInsertState() { return _insert; }
+
+        public bool GetActionState() { return _action; }
     }
 }
