@@ -43,14 +43,14 @@ namespace ViewForms
             try
             {
                 _listArticulos = nArticulo.GetAll();
-                if (_action)
-                {
+                //if (_action)
+                //{
                     if (_cbxFiltroCat != "CATEGORIA")
                     {
                         _listArticulosCategorias = _listArticulos.FindAll(x => x.Categoria.Descripcion == _cbxFiltroCat);
                         if(tbxBuscar.Text != "")
                         {
-                            _listaFiltrada = _listArticulosCategorias.FindAll(x => x.Nombre.ToUpper().Contains(tbxBuscar.Text.ToUpper()));
+                            _listaFiltrada = _listArticulosCategorias.FindAll(x => x.Nombre.ToUpper().Contains(tbxBuscar.Text.ToUpper()) || x.Codigo.ToUpper().Contains(tbxBuscar.Text.ToUpper()));
                             dgvArticulos.DataSource = null;
                             dgvArticulos.DataSource = _listaFiltrada;
                         }
@@ -64,7 +64,7 @@ namespace ViewForms
                     {
                         if (tbxBuscar.Text != "")
                         {
-                            _listaFiltrada = _listArticulos.FindAll(x => x.Nombre.ToUpper().Contains( tbxBuscar.Text.ToUpper()));
+                            _listaFiltrada = _listArticulos.FindAll(x => x.Nombre.ToUpper().Contains( tbxBuscar.Text.ToUpper()) || x.Codigo.ToUpper().Contains(tbxBuscar.Text.ToUpper()));
                             dgvArticulos.DataSource = null;
                             dgvArticulos.DataSource = _listaFiltrada;
                         }
@@ -74,11 +74,11 @@ namespace ViewForms
                             dgvArticulos.DataSource = _listArticulos;
                         }
                     }
-                }
-                else
-                {
-                    dgvArticulos.DataSource = _listArticulos;
-                }
+                //}
+                //else
+                //{
+                //    dgvArticulos.DataSource = _listArticulos;
+                //}
                 HideColumns();
                 ImageLoad(_listArticulos[0].ImagenUrl);
                 _action = false;
@@ -108,12 +108,12 @@ namespace ViewForms
             
             if (_listArticulosCategorias != null && opcion != "CATEGORIA")
             {
-                if (filtro != "" && filtro.Length >= 3) _listaFiltrada = _listArticulosCategorias.FindAll(x => x.Nombre.ToUpper().Contains(filtro.ToUpper()));
+                if (filtro != "" && filtro.Length >= 3) _listaFiltrada = _listArticulosCategorias.FindAll(x => x.Nombre.ToUpper().Contains(filtro.ToUpper()) || x.Codigo.ToUpper().Contains(filtro.ToUpper()));
                 else _listaFiltrada = _listArticulosCategorias;
             }
             else
             {
-                if (filtro != "" && filtro.Length >= 3) _listaFiltrada = _listArticulos.FindAll(x => x.Nombre.ToUpper().Contains(filtro.ToUpper()));
+                if (filtro != "" && filtro.Length >= 3) _listaFiltrada = _listArticulos.FindAll(x => x.Nombre.ToUpper().Contains(filtro.ToUpper()) || x.Codigo.ToUpper().Contains(filtro.ToUpper()));
                 else _listaFiltrada = _listArticulos;
             }
             dgvArticulos.DataSource = null;

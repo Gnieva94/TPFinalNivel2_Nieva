@@ -38,6 +38,7 @@
             this.tbxBuscar = new System.Windows.Forms.TextBox();
             this.btnDetalle = new System.Windows.Forms.Button();
             this.cbxFiltroCategoria = new System.Windows.Forms.ComboBox();
+            this.cbxCampo = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvArticulos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxArticulo)).BeginInit();
             this.SuspendLayout();
@@ -59,13 +60,14 @@
             this.dgvArticulos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvArticulos.ShowCellToolTips = false;
             this.dgvArticulos.ShowEditingIcon = false;
-            this.dgvArticulos.Size = new System.Drawing.Size(644, 255);
+            this.dgvArticulos.Size = new System.Drawing.Size(543, 255);
             this.dgvArticulos.TabIndex = 0;
             this.dgvArticulos.SelectionChanged += new System.EventHandler(this.dgvArticulos_SelectionChanged);
             // 
             // pbxArticulo
             // 
-            this.pbxArticulo.Location = new System.Drawing.Point(662, 74);
+            this.pbxArticulo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pbxArticulo.Location = new System.Drawing.Point(571, 74);
             this.pbxArticulo.Name = "pbxArticulo";
             this.pbxArticulo.Size = new System.Drawing.Size(266, 255);
             this.pbxArticulo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -119,7 +121,7 @@
             this.tbxBuscar.Location = new System.Drawing.Point(67, 6);
             this.tbxBuscar.Name = "tbxBuscar";
             this.tbxBuscar.Size = new System.Drawing.Size(165, 20);
-            this.tbxBuscar.TabIndex = 6;
+            this.tbxBuscar.TabIndex = 0;
             this.tbxBuscar.TextChanged += new System.EventHandler(this.tbxBuscar_TextChanged);
             // 
             // btnDetalle
@@ -128,7 +130,7 @@
             this.btnDetalle.Location = new System.Drawing.Point(256, 349);
             this.btnDetalle.Name = "btnDetalle";
             this.btnDetalle.Size = new System.Drawing.Size(75, 23);
-            this.btnDetalle.TabIndex = 7;
+            this.btnDetalle.TabIndex = 5;
             this.btnDetalle.Text = "Detalle";
             this.btnDetalle.UseVisualStyleBackColor = true;
             this.btnDetalle.Click += new System.EventHandler(this.btnDetalle_Click);
@@ -137,18 +139,28 @@
             // 
             this.cbxFiltroCategoria.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxFiltroCategoria.FormattingEnabled = true;
-            this.cbxFiltroCategoria.Location = new System.Drawing.Point(256, 6);
+            this.cbxFiltroCategoria.Location = new System.Drawing.Point(402, 6);
             this.cbxFiltroCategoria.Name = "cbxFiltroCategoria";
             this.cbxFiltroCategoria.Size = new System.Drawing.Size(121, 21);
-            this.cbxFiltroCategoria.TabIndex = 8;
+            this.cbxFiltroCategoria.TabIndex = 1;
             this.cbxFiltroCategoria.SelectedIndexChanged += new System.EventHandler(this.cbxFiltroCategoria_SelectedIndexChanged);
+            // 
+            // cbxCampo
+            // 
+            this.cbxCampo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxCampo.FormattingEnabled = true;
+            this.cbxCampo.Location = new System.Drawing.Point(256, 6);
+            this.cbxCampo.Name = "cbxCampo";
+            this.cbxCampo.Size = new System.Drawing.Size(121, 21);
+            this.cbxCampo.TabIndex = 6;
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.ClientSize = new System.Drawing.Size(942, 509);
+            this.ClientSize = new System.Drawing.Size(852, 391);
+            this.Controls.Add(this.cbxCampo);
             this.Controls.Add(this.cbxFiltroCategoria);
             this.Controls.Add(this.btnDetalle);
             this.Controls.Add(this.tbxBuscar);
@@ -159,6 +171,8 @@
             this.Controls.Add(this.pbxArticulo);
             this.Controls.Add(this.dgvArticulos);
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(868, 430);
+            this.MinimumSize = new System.Drawing.Size(868, 430);
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Articulos";
@@ -181,6 +195,7 @@
         private System.Windows.Forms.TextBox tbxBuscar;
         private System.Windows.Forms.Button btnDetalle;
         private System.Windows.Forms.ComboBox cbxFiltroCategoria;
+        private System.Windows.Forms.ComboBox cbxCampo;
     }
 }
 

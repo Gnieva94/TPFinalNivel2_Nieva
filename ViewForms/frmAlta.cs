@@ -79,6 +79,7 @@ namespace ViewForms
                     tbxImagenUrl.TabStop = false;
                     tbxPrecio.ReadOnly = true;
                     tbxPrecio.TabStop = false;
+                    tbxPrecio.Text = _articulo.Precio.ToString("$#,###.00");
                 }
             }
             catch (Exception ex)
