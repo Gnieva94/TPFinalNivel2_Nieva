@@ -125,6 +125,7 @@
             this.tbxPrecio.Name = "tbxPrecio";
             this.tbxPrecio.Size = new System.Drawing.Size(145, 20);
             this.tbxPrecio.TabIndex = 6;
+            this.tbxPrecio.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbxPrecio_KeyPress);
             // 
             // lblPrecio
             // 

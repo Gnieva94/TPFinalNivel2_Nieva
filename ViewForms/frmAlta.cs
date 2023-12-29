@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Dominio;
 using Negocio;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ViewForms
 {
@@ -16,8 +17,6 @@ namespace ViewForms
     {
         private Articulo _articulo = null;
         private bool _detalle = false;
-        private bool _insert = false;
-        private bool _modify = false;
         private bool _action = false;
         public frmAlta()
         {
@@ -44,8 +43,6 @@ namespace ViewForms
             var nMarca = new NMarca();
             try
             {
-                _modify = false;
-                _insert = false;
                 _action = false;
                 cbxCategoria.DataSource = nCategoria.GetAll();
                 cbxCategoria.ValueMember = "Id";
@@ -68,23 +65,18 @@ namespace ViewForms
                 if (_detalle)
                 {
                     btnAceptar.Visible = false;
-                    //tbxCodigo.Enabled = false;
                     tbxCodigo.ReadOnly = true;
                     tbxCodigo.TabStop = false;
-                    //tbxNombre.Enabled = false;
                     tbxNombre.ReadOnly = true;
                     tbxNombre.TabStop = false;
-                    //tbxDescripcion.Enabled = false;
                     tbxDescripcion.ReadOnly = true;
                     tbxDescripcion.TabStop = false;
                     cbxCategoria.Enabled = false;
                     cbxCategoria.TabStop = false;
                     cbxMarca.Enabled = false;
                     cbxMarca.TabStop = false;
-                    //tbxImagenUrl.Enabled = false;
                     tbxImagenUrl.ReadOnly = true;
                     tbxImagenUrl.TabStop = false;
-                    //tbxPrecio.Enabled = false;
                     tbxPrecio.ReadOnly = true;
                     tbxPrecio.TabStop = false;
                 }
@@ -119,7 +111,6 @@ namespace ViewForms
                     if (nArticulo.Modify(_articulo))
                     {
                         MessageBox.Show("Modificado exitosamente.");
-                        _modify = true;
                         _action = true;
                     }
                     else MessageBox.Show("No pudo ser modificado el articulo.");
@@ -129,7 +120,6 @@ namespace ViewForms
                     if (nArticulo.Insert(_articulo))
                     {
                         MessageBox.Show("Insertado exitosamente.");
-                        _insert = true;
                         _action = true;
                     }
                     else MessageBox.Show("No pudo ser insertado el articulo.");
@@ -158,9 +148,15 @@ namespace ViewForms
             ImageLoad(tbxImagenUrl.Text);
         }
 
-        public bool GetModifyState() { return _modify; }
-        public bool GetInsertState() { return _insert; }
-
         public bool GetActionState() { return _action; }
+
+        private void tbxPrecio_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '.')
+            {
+                // Reemplazar el punto por la coma
+                e.KeyChar = ',';
+            }
+        }
     }
 }
