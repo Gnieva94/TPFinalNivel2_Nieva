@@ -37,7 +37,7 @@
             this.lblBuscar = new System.Windows.Forms.Label();
             this.tbxBuscar = new System.Windows.Forms.TextBox();
             this.btnDetalle = new System.Windows.Forms.Button();
-            this.cbxFiltroCategoria = new System.Windows.Forms.ComboBox();
+            this.cbxBuscar = new System.Windows.Forms.ComboBox();
             this.cbxCampo = new System.Windows.Forms.ComboBox();
             this.lblCampo = new System.Windows.Forms.Label();
             this.cboCriterio = new System.Windows.Forms.ComboBox();
@@ -116,7 +116,7 @@
             // lblBuscar
             // 
             this.lblBuscar.AutoSize = true;
-            this.lblBuscar.Location = new System.Drawing.Point(18, 32);
+            this.lblBuscar.Location = new System.Drawing.Point(18, 33);
             this.lblBuscar.Name = "lblBuscar";
             this.lblBuscar.Size = new System.Drawing.Size(49, 13);
             this.lblBuscar.TabIndex = 5;
@@ -124,7 +124,7 @@
             // 
             // tbxBuscar
             // 
-            this.tbxBuscar.Location = new System.Drawing.Point(340, 29);
+            this.tbxBuscar.Location = new System.Drawing.Point(200, 30);
             this.tbxBuscar.Name = "tbxBuscar";
             this.tbxBuscar.Size = new System.Drawing.Size(165, 20);
             this.tbxBuscar.TabIndex = 0;
@@ -141,15 +141,15 @@
             this.btnDetalle.UseVisualStyleBackColor = true;
             this.btnDetalle.Click += new System.EventHandler(this.btnDetalle_Click);
             // 
-            // cbxFiltroCategoria
+            // cbxBuscar
             // 
-            this.cbxFiltroCategoria.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbxFiltroCategoria.FormattingEnabled = true;
-            this.cbxFiltroCategoria.Location = new System.Drawing.Point(200, 29);
-            this.cbxFiltroCategoria.Name = "cbxFiltroCategoria";
-            this.cbxFiltroCategoria.Size = new System.Drawing.Size(121, 21);
-            this.cbxFiltroCategoria.TabIndex = 1;
-            this.cbxFiltroCategoria.SelectedIndexChanged += new System.EventHandler(this.cbxFiltroCategoria_SelectedIndexChanged);
+            this.cbxBuscar.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxBuscar.FormattingEnabled = true;
+            this.cbxBuscar.Location = new System.Drawing.Point(200, 29);
+            this.cbxBuscar.Name = "cbxBuscar";
+            this.cbxBuscar.Size = new System.Drawing.Size(121, 21);
+            this.cbxBuscar.TabIndex = 1;
+            this.cbxBuscar.SelectedIndexChanged += new System.EventHandler(this.cbxBuscar_SelectedIndexChanged);
             // 
             // cbxCampo
             // 
@@ -164,7 +164,7 @@
             // lblCampo
             // 
             this.lblCampo.AutoSize = true;
-            this.lblCampo.Location = new System.Drawing.Point(6, 16);
+            this.lblCampo.Location = new System.Drawing.Point(38, 21);
             this.lblCampo.Name = "lblCampo";
             this.lblCampo.Size = new System.Drawing.Size(40, 13);
             this.lblCampo.TabIndex = 7;
@@ -174,14 +174,14 @@
             // 
             this.cboCriterio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboCriterio.FormattingEnabled = true;
-            this.cboCriterio.Location = new System.Drawing.Point(85, 13);
+            this.cboCriterio.Location = new System.Drawing.Point(120, 17);
             this.cboCriterio.Name = "cboCriterio";
             this.cboCriterio.Size = new System.Drawing.Size(121, 21);
             this.cboCriterio.TabIndex = 8;
             // 
             // tbxfiltro
             // 
-            this.tbxfiltro.Location = new System.Drawing.Point(225, 13);
+            this.tbxfiltro.Location = new System.Drawing.Point(259, 17);
             this.tbxfiltro.Name = "tbxfiltro";
             this.tbxfiltro.Size = new System.Drawing.Size(165, 20);
             this.tbxfiltro.TabIndex = 9;
@@ -194,7 +194,7 @@
             this.gpFiltro.Controls.Add(this.cboCriterio);
             this.gpFiltro.Location = new System.Drawing.Point(12, 72);
             this.gpFiltro.Name = "gpFiltro";
-            this.gpFiltro.Size = new System.Drawing.Size(511, 40);
+            this.gpFiltro.Size = new System.Drawing.Size(526, 52);
             this.gpFiltro.TabIndex = 10;
             this.gpFiltro.TabStop = false;
             this.gpFiltro.Text = "Filtro";
@@ -202,7 +202,7 @@
             // btnFiltroBuscar
             // 
             this.btnFiltroBuscar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnFiltroBuscar.Location = new System.Drawing.Point(418, 11);
+            this.btnFiltroBuscar.Location = new System.Drawing.Point(445, 16);
             this.btnFiltroBuscar.Name = "btnFiltroBuscar";
             this.btnFiltroBuscar.Size = new System.Drawing.Size(75, 23);
             this.btnFiltroBuscar.TabIndex = 11;
@@ -217,7 +217,7 @@
             this.ClientSize = new System.Drawing.Size(852, 588);
             this.Controls.Add(this.gpFiltro);
             this.Controls.Add(this.cbxCampo);
-            this.Controls.Add(this.cbxFiltroCategoria);
+            this.Controls.Add(this.cbxBuscar);
             this.Controls.Add(this.btnDetalle);
             this.Controls.Add(this.tbxBuscar);
             this.Controls.Add(this.lblBuscar);
@@ -251,7 +251,7 @@
         private System.Windows.Forms.Label lblBuscar;
         private System.Windows.Forms.TextBox tbxBuscar;
         private System.Windows.Forms.Button btnDetalle;
-        private System.Windows.Forms.ComboBox cbxFiltroCategoria;
+        private System.Windows.Forms.ComboBox cbxBuscar;
         private System.Windows.Forms.ComboBox cbxCampo;
         private System.Windows.Forms.Label lblCampo;
         private System.Windows.Forms.ComboBox cboCriterio;

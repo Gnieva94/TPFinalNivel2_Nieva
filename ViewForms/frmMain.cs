@@ -18,9 +18,10 @@ namespace ViewForms
         private List<Articulo> _listArticulos;
         private List<Categoria> _listCategorias;
         private List<Marca> _listMarcas;
-        private List<Articulo> _listArticulosCategorias;
+        private List<Articulo> _listArticulosBuscar;
         private List<Articulo> _listaFiltrada;
-        private string _cbxFiltroCat;
+        private string _cbxCampo;
+        private string _cbxBuscar;
         private bool _action = false;
 
         public frmMain()
@@ -29,22 +30,22 @@ namespace ViewForms
         }
         private void frmMain_Load(object sender, EventArgs e)
         {
+            var nMarca = new NMarca();
+            _listMarcas = nMarca.GetAll();
+            _listMarcas.Insert(0, new Marca { Id = 0, Descripcion = "" });
+            var nCategoria = new NCategoria();
+            _listCategorias = nCategoria.GetAll();
+            _listCategorias.Insert(0, new Categoria { Id = 0, Descripcion = "" });
+
+            tbxBuscar.Visible = false;
             gpFiltro.Visible = false;
-            cbxFiltroCategoria.Visible = false;
+            cbxBuscar.Visible = false;
             cbxCampo.Items.Add("");
             cbxCampo.Items.Add("Código");
             cbxCampo.Items.Add("Nombre");
-            cbxCampo.Items.Add("Descripción");
             cbxCampo.Items.Add("Marca");
             cbxCampo.Items.Add("Categoria");
             cbxCampo.Items.Add("Precio");
-
-            //var nCategoria = new NCategoria();
-            //_listCategorias = nCategoria.GetAll();
-            //_listCategorias.Insert(0, new Categoria { Id = 0, Descripcion = "CATEGORIA" });
-            //cbxFiltroCategoria.DataSource = _listCategorias;
-            //cbxFiltroCategoria.ValueMember = "Id";
-            //cbxFiltroCategoria.DisplayMember = "Descripcion";
             LoadForm();
         }
         private void LoadForm()
@@ -92,7 +93,7 @@ namespace ViewForms
                 //}
                 dgvArticulos.DataSource = _listArticulos;
                 HideColumns();
-                ImageLoad(_listArticulos[0].ImagenUrl);
+                //ImageLoad(_listArticulos[0].ImagenUrl);
                 _action = false;
             }
             catch (Exception ex)
@@ -116,47 +117,26 @@ namespace ViewForms
         private void tbxBuscar_TextChanged(object sender, EventArgs e)
         {
             var filtro = tbxBuscar.Text;
-            var opcion = cbxFiltroCategoria.SelectedItem.ToString();
-            
-            if (_listArticulosCategorias != null && opcion != "")
-            {
-                if (filtro != "" && filtro.Length >= 3) _listaFiltrada = _listArticulosCategorias.FindAll(x => x.Nombre.ToUpper().Contains(filtro.ToUpper()) || x.Codigo.ToUpper().Contains(filtro.ToUpper()));
-                else _listaFiltrada = _listArticulosCategorias;
-            }
-            else
-            {
-                if (filtro != "" && filtro.Length >= 3) _listaFiltrada = _listArticulos.FindAll(x => x.Nombre.ToUpper().Contains(filtro.ToUpper()) || x.Codigo.ToUpper().Contains(filtro.ToUpper()));
-                else _listaFiltrada = _listArticulos;
-            }
+            //var opcion = cbxBuscar.SelectedItem.ToString();
+            if (filtro != "" && filtro.Length >= 3) _listaFiltrada = _cbxCampo == "Código" ?  _listArticulos.FindAll(x => x.Codigo.ToUpper().Contains(filtro.ToUpper())) : _listArticulos.FindAll(x => x.Nombre.ToUpper().Contains(filtro.ToUpper()));
+            else _listaFiltrada = _listArticulos;
+            //if (_listArticulosBuscar != null)
+            //{
+            //    if (filtro != "" && filtro.Length >= 3) _listaFiltrada = _listArticulosBuscar.FindAll(x => x.Nombre.ToUpper().Contains(filtro.ToUpper()) || x.Codigo.ToUpper().Contains(filtro.ToUpper()));
+            //    else _listaFiltrada = _listArticulosBuscar;
+            //}
+            //else
+            //{
+            //    if (filtro != "" && filtro.Length >= 3) _listaFiltrada = _listArticulos.FindAll(x => x.Nombre.ToUpper().Contains(filtro.ToUpper()) || x.Codigo.ToUpper().Contains(filtro.ToUpper()));
+            //    else _listaFiltrada = _listArticulos;
+            //}
             dgvArticulos.DataSource = null;
             dgvArticulos.DataSource = _listaFiltrada;
             HideColumns();
         }
         private void cbxFiltroCategoria_SelectedIndexChanged(object sender, EventArgs e)
         {
-            _cbxFiltroCat = cbxFiltroCategoria.SelectedItem.ToString();
-            if (_listArticulos != null)
-            {
-                if(_cbxFiltroCat == "")
-                {
-                    gpFiltro.Enabled = false;
-                    tbxBuscar.Text = "";
-                    _listArticulosCategorias = null;
-                    dgvArticulos.DataSource = null;
-                    dgvArticulos.DataSource = _listArticulos;
-                    HideColumns();
-                }
-                else
-                {
-                    gpFiltro.Enabled = true;
-                    tbxBuscar.Text = "";
-                    _listArticulosCategorias = _listArticulos.FindAll(x => x.Categoria.Descripcion == _cbxFiltroCat);
-                    dgvArticulos.DataSource = null;
-                    dgvArticulos.DataSource = _listArticulosCategorias;
-                    HideColumns();
-                }
-                
-            }
+            
             
         }
         public void HideColumns()
@@ -259,9 +239,37 @@ namespace ViewForms
             }
         }
 
+        private void cbxBuscar_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _cbxBuscar = cbxBuscar.SelectedItem.ToString();
+            //if (_listArticulos != null)
+            //{
+                if (_cbxBuscar == "")
+                {
+                    //gpFiltro.Enabled = false;
+                    //tbxBuscar.Text = "";
+                    _listArticulosBuscar = null;
+                    dgvArticulos.DataSource = null;
+                    dgvArticulos.DataSource = _listArticulos;
+                    HideColumns();
+                }
+                else
+                {
+                    //gpFiltro.Enabled = true;
+                    //tbxBuscar.Text = "";
+                    _listArticulosBuscar = _cbxCampo == "Categoria" ? _listArticulos.FindAll(x => x.Categoria.Descripcion == _cbxBuscar) : _listArticulos.FindAll(x => x.Marca.Descripcion == _cbxBuscar);
+                    dgvArticulos.DataSource = null;
+                    dgvArticulos.DataSource = _listArticulosBuscar;
+                    HideColumns();
+                }
+
+            //}
+        }
+
         private void cbxCampo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(cbxCampo.SelectedItem.ToString() != "")
+            _cbxCampo = cbxCampo.SelectedItem.ToString();
+            if(_cbxCampo != "")
             {
                 gpFiltro.Visible = true;
                 gpFiltro.Enabled = true;
@@ -273,49 +281,52 @@ namespace ViewForms
             else
             {
                 gpFiltro.Visible = false;
+                dgvArticulos.DataSource = null;
+                dgvArticulos.DataSource = _listArticulos;
+                HideColumns();
                 //gpFiltro.Enabled = false;
             }
-            switch (cbxCampo.SelectedItem.ToString())
+            switch (_cbxCampo)
             {
                 case "":
-                    cbxFiltroCategoria.Visible = false;
+                    cbxBuscar.Visible = false;
+                    tbxBuscar.Visible = false;
                     break;
                 case "Código":
+                    tbxBuscar.Visible = true;
                     lblCampo.Text = "Código";
-                    cbxFiltroCategoria.Visible = false;
+                    cbxBuscar.Visible = false;
                     break;
                 case "Nombre":
+                    tbxBuscar.Visible = true;
                     lblCampo.Text = "Nombre";
-                    cbxFiltroCategoria.Visible = false;
-                    break;
-                case "Descripción":
-                    lblCampo.Text = "Descripción";
-                    cbxFiltroCategoria.Visible = false;
+                    cbxBuscar.Visible = false;
                     break;
                 case "Marca":
-                    lblCampo.Text = "Marca";
-                    cbxFiltroCategoria.Visible = true;
-                    var nMarca = new NMarca();
-                    _listMarcas = nMarca.GetAll();
-                    _listMarcas.Insert(0, new Marca { Id = 0, Descripcion = "" });
-                    cbxFiltroCategoria.DataSource = _listMarcas;
-                    cbxFiltroCategoria.ValueMember = "Id";
-                    cbxFiltroCategoria.DisplayMember = "Descripcion";
+                    tbxBuscar.Visible = false;
+                    gpFiltro.Visible = false;
+                    //lblCampo.Text = "Marca";
+                    cbxBuscar.Visible = true;
+                    cbxBuscar.DataSource = _listMarcas;
+                    cbxBuscar.ValueMember = "Id";
+                    cbxBuscar.DisplayMember = "Descripcion";
+                    cbxBuscar.SelectedIndex = 0;
 
                     break;
                 case "Categoria":
-                    lblCampo.Text = "Categoria";
-                    cbxFiltroCategoria.Visible = true;
-                    var nCategoria = new NCategoria();
-                    _listCategorias = nCategoria.GetAll();
-                    _listCategorias.Insert(0, new Categoria { Id = 0, Descripcion = "" });
-                    cbxFiltroCategoria.DataSource = _listCategorias;
-                    cbxFiltroCategoria.ValueMember = "Id";
-                    cbxFiltroCategoria.DisplayMember = "Descripcion";
+                    tbxBuscar.Visible = false;
+                    gpFiltro.Visible = false;
+                    //lblCampo.Text = "Categoria";
+                    cbxBuscar.Visible = true;
+                    cbxBuscar.DataSource = _listCategorias;
+                    cbxBuscar.ValueMember = "Id";
+                    cbxBuscar.DisplayMember = "Descripcion";
+                    cbxBuscar.SelectedIndex = 0;
                     break;
                 case "Precio":
+                    tbxBuscar.Visible = false;
+                    cbxBuscar.Visible = false;
                     lblCampo.Text = "Precio";
-                    cbxFiltroCategoria.Visible = false;
                     cboCriterio.Items.Clear();
                     cboCriterio.Items.Add(">");
                     cboCriterio.Items.Add(">=");
@@ -325,5 +336,7 @@ namespace ViewForms
                     break;
             }
         }
+
+        
     }
 }
