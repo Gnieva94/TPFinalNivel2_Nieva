@@ -107,6 +107,7 @@ namespace ViewForms
                 _articulo.Categoria = (Categoria)cbxCategoria.SelectedItem;
                 _articulo.ImagenUrl = tbxImagenUrl.Text;
                 _articulo.Precio = Decimal.Parse(tbxPrecio.Text);
+                Console.WriteLine(_articulo.Precio);
                 if(_articulo.Id != 0)
                 {
                     if (nArticulo.Modify(_articulo))

@@ -268,15 +268,16 @@ namespace ViewForms
 
         private void cbxCampo_SelectedIndexChanged(object sender, EventArgs e)
         {
+            tbxFiltro.Text = "";
             _cbxCampo = cbxCampo.SelectedItem.ToString();
             if(_cbxCampo != "")
             {
                 gpFiltro.Visible = true;
                 gpFiltro.Enabled = true;
-                cboCriterio.Items.Clear();
-                cboCriterio.Items.Add("Empieza con");
-                cboCriterio.Items.Add("Termina con");
-                cboCriterio.Items.Add("Contiene");
+                cbxCriterio.Items.Clear();
+                cbxCriterio.Items.Add("Empieza con");
+                cbxCriterio.Items.Add("Termina con");
+                cbxCriterio.Items.Add("Contiene");
             }
             else
             {
@@ -327,16 +328,52 @@ namespace ViewForms
                     tbxBuscar.Visible = false;
                     cbxBuscar.Visible = false;
                     lblCampo.Text = "Precio";
-                    cboCriterio.Items.Clear();
-                    cboCriterio.Items.Add(">");
-                    cboCriterio.Items.Add(">=");
-                    cboCriterio.Items.Add("<");
-                    cboCriterio.Items.Add("<=");
-                    cboCriterio.Items.Add("=");
+                    cbxCriterio.Items.Clear();
+                    cbxCriterio.Items.Add(">");
+                    cbxCriterio.Items.Add(">=");
+                    cbxCriterio.Items.Add("<");
+                    cbxCriterio.Items.Add("<=");
+                    cbxCriterio.Items.Add("=");
                     break;
             }
         }
 
-        
+        private void btnFiltroBuscar_Click(object sender, EventArgs e)
+        {
+            var nArticulo = new NArticulo();
+            try
+            {
+                string campo;
+                if (cbxCampo.SelectedItem != null) campo = cbxCampo.SelectedItem.ToString();
+                else 
+                {
+                    MessageBox.Show("Debes elegir un campo");
+                    return;
+                }
+                string criterio;
+                if(cbxCriterio.SelectedItem != null) criterio = cbxCriterio.SelectedItem.ToString();
+                else
+                {
+                    MessageBox.Show("Debes elegir un criterio");
+                    return;
+                }
+
+                var filtro = tbxFiltro.Text;
+
+
+                if(campo != "" && criterio != "" && filtro != "")
+                {
+                    dgvArticulos.DataSource = null;
+                    dgvArticulos.DataSource = nArticulo.Filter(campo,criterio,filtro);
+                    HideColumns();
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.ToString());
+            }
+        }
     }
 }

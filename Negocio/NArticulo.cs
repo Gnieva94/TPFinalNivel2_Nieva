@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,33 +12,55 @@ namespace Negocio
     public class NArticulo
     {
 		private Conection conection;
-		public NArticulo() 
+		private string _getAll = "SELECT A.Id AId,A.Codigo ACod,A.Nombre ANom,A.Descripcion ADes,A.IdMarca AIdMarca,M.Descripcion MDes,A.IdCategoria AIdCat,C.Descripcion as CDes,A.ImagenUrl AImgUrl,A.Precio APrecio FROM ARTICULOS as A INNER JOIN CATEGORIAS as C ON A.IdCategoria = C.Id INNER JOIN MARCAS as M ON A.IdMarca = M.Id ";
+
+        public NArticulo() 
 		{ 
 			conection = new Conection();
 		}
+		private Articulo GetArticulo(Conection conection) 
+		{
+            var articulo = new Articulo();
+            articulo.Id = (int)conection.Reader["AId"];
+            articulo.Codigo = (string)conection.Reader["ACod"];
+            articulo.Nombre = (string)conection.Reader["ANom"];
+            articulo.Descripcion = (string)conection.Reader["ADes"];
+            articulo.Marca = new Marca();
+            articulo.Marca.Id = (int)conection.Reader["AIdMarca"];
+            articulo.Marca.Descripcion = (string)conection.Reader["MDes"];
+            articulo.Categoria = new Categoria();
+            articulo.Categoria.Id = (int)conection.Reader["AIdCat"];
+            articulo.Categoria.Descripcion = (string)conection.Reader["CDes"];
+            articulo.ImagenUrl = (string)conection.Reader["AImgUrl"];
+            articulo.Precio = Math.Round(Convert.ToDecimal(conection.Reader["APrecio"]), 2);
+			return articulo;
+        }
+
         public List<Articulo> GetAll()
         {
 			var list = new List<Articulo>();
 			try
 			{
-				conection.SetQuery("SELECT A.Id AId,A.Codigo ACod,A.Nombre ANom,A.Descripcion ADes,A.IdMarca AIdMarca,M.Descripcion MDes,A.IdCategoria AIdCat,C.Descripcion as CDes,A.ImagenUrl AImgUrl,A.Precio APrecio FROM ARTICULOS as A INNER JOIN CATEGORIAS as C ON A.IdCategoria = C.Id INNER JOIN MARCAS as M ON A.IdMarca = M.Id");
+				//conection.SetQuery("SELECT A.Id AId,A.Codigo ACod,A.Nombre ANom,A.Descripcion ADes,A.IdMarca AIdMarca,M.Descripcion MDes,A.IdCategoria AIdCat,C.Descripcion as CDes,A.ImagenUrl AImgUrl,A.Precio APrecio FROM ARTICULOS as A INNER JOIN CATEGORIAS as C ON A.IdCategoria = C.Id INNER JOIN MARCAS as M ON A.IdMarca = M.Id");
+				conection.SetQuery(_getAll);
 				conection.ExecuteQuery();
 				while(conection.Reader.Read()) 
 				{
-					var articulo = new Articulo();
-					articulo.Id = (int)conection.Reader["AId"];
-					articulo.Codigo = (string)conection.Reader["ACod"];
-					articulo.Nombre = (string)conection.Reader["ANom"];
-					articulo.Descripcion = (string)conection.Reader["ADes"];
-					articulo.Marca = new Marca();
-					articulo.Marca.Id = (int)conection.Reader["AIdMarca"];
-					articulo.Marca.Descripcion = (string)conection.Reader["MDes"];
-					articulo.Categoria = new Categoria();
-					articulo.Categoria.Id = (int)conection.Reader["AIdCat"];
-					articulo.Categoria.Descripcion = (string)conection.Reader["CDes"];
-					articulo.ImagenUrl = (string)conection.Reader["AImgUrl"];
-					articulo.Precio = Math.Round(Convert.ToDecimal(conection.Reader["APrecio"]), 2);
-					list.Add(articulo);
+					//var articulo = new Articulo();
+					//articulo.Id = (int)conection.Reader["AId"];
+					//articulo.Codigo = (string)conection.Reader["ACod"];
+					//articulo.Nombre = (string)conection.Reader["ANom"];
+					//articulo.Descripcion = (string)conection.Reader["ADes"];
+					//articulo.Marca = new Marca();
+					//articulo.Marca.Id = (int)conection.Reader["AIdMarca"];
+					//articulo.Marca.Descripcion = (string)conection.Reader["MDes"];
+					//articulo.Categoria = new Categoria();
+					//articulo.Categoria.Id = (int)conection.Reader["AIdCat"];
+					//articulo.Categoria.Descripcion = (string)conection.Reader["CDes"];
+					//articulo.ImagenUrl = (string)conection.Reader["AImgUrl"];
+					//articulo.Precio = Math.Round(Convert.ToDecimal(conection.Reader["APrecio"]), 2);
+
+					list.Add(GetArticulo(conection));
 				}
 				return list;
 			}
@@ -107,6 +130,67 @@ namespace Negocio
 				conection.SetQuery("DELETE FROM ARTICULOS WHERE Id = @Id");
 				conection.SetParameter("@Id", articulo.Id);
 				return conection.ExecuteAction();
+			}
+			catch (Exception ex)
+			{
+				throw ex;
+			}
+			finally
+			{
+				conection.CloseConnection();
+			}
+        }
+
+		public List<Articulo> Filter(string campo, string criterio, string filtro)
+		{
+            var list = new List<Articulo>();
+			var query = _getAll;
+			try
+			{
+				switch (campo)
+				{
+					case "Código":
+						query += "WHERE A.Codigo like ";
+						switch (criterio)
+						{
+							case "Empieza con":
+								query += string.Format("'{0}%'", filtro);
+                                break;
+							case "Termina con":
+                                query += string.Format("'%{0}'", filtro);
+                                break;
+							case "Contiene":
+                                query += string.Format("'%{0}%'", filtro);
+                                break;
+						}
+						break;
+					case "Nombre":
+                        query += "WHERE A.Nombre like ";
+                        switch (criterio)
+                        {
+                            case "Empieza con":
+                                query += string.Format("'{0}%'", filtro);
+                                break;
+                            case "Termina con":
+                                query += string.Format("'%{0}'", filtro);
+                                break;
+                            case "Contiene":
+                                query += string.Format("'%{0}%'", filtro);
+                                break;
+                        }
+                        break;
+					case "Precio":
+                        query += string.Format("WHERE A.Precio {0} {1}", criterio,filtro);
+                        break;
+				}
+				//Console.WriteLine(query);
+				conection.SetQuery(query);
+				conection.ExecuteQuery();
+				while (conection.Reader.Read())
+				{
+					list.Add(GetArticulo(conection));
+				}
+				return list;
 			}
 			catch (Exception ex)
 			{

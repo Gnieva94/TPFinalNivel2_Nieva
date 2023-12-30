@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvArticulos = new System.Windows.Forms.DataGridView();
             this.pbxArticulo = new System.Windows.Forms.PictureBox();
             this.btnAgregar = new System.Windows.Forms.Button();
@@ -40,8 +40,8 @@
             this.cbxBuscar = new System.Windows.Forms.ComboBox();
             this.cbxCampo = new System.Windows.Forms.ComboBox();
             this.lblCampo = new System.Windows.Forms.Label();
-            this.cboCriterio = new System.Windows.Forms.ComboBox();
-            this.tbxfiltro = new System.Windows.Forms.TextBox();
+            this.cbxCriterio = new System.Windows.Forms.ComboBox();
+            this.tbxFiltro = new System.Windows.Forms.TextBox();
             this.gpFiltro = new System.Windows.Forms.GroupBox();
             this.btnFiltroBuscar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvArticulos)).BeginInit();
@@ -55,8 +55,8 @@
             this.dgvArticulos.AllowUserToDeleteRows = false;
             this.dgvArticulos.AllowUserToResizeColumns = false;
             this.dgvArticulos.AllowUserToResizeRows = false;
-            dataGridViewCellStyle3.NullValue = null;
-            this.dgvArticulos.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.NullValue = null;
+            this.dgvArticulos.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvArticulos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvArticulos.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgvArticulos.Location = new System.Drawing.Point(12, 163);
@@ -170,28 +170,28 @@
             this.lblCampo.TabIndex = 7;
             this.lblCampo.Text = "Campo";
             // 
-            // cboCriterio
+            // cbxCriterio
             // 
-            this.cboCriterio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboCriterio.FormattingEnabled = true;
-            this.cboCriterio.Location = new System.Drawing.Point(120, 17);
-            this.cboCriterio.Name = "cboCriterio";
-            this.cboCriterio.Size = new System.Drawing.Size(121, 21);
-            this.cboCriterio.TabIndex = 8;
+            this.cbxCriterio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxCriterio.FormattingEnabled = true;
+            this.cbxCriterio.Location = new System.Drawing.Point(120, 17);
+            this.cbxCriterio.Name = "cbxCriterio";
+            this.cbxCriterio.Size = new System.Drawing.Size(121, 21);
+            this.cbxCriterio.TabIndex = 8;
             // 
-            // tbxfiltro
+            // tbxFiltro
             // 
-            this.tbxfiltro.Location = new System.Drawing.Point(259, 17);
-            this.tbxfiltro.Name = "tbxfiltro";
-            this.tbxfiltro.Size = new System.Drawing.Size(165, 20);
-            this.tbxfiltro.TabIndex = 9;
+            this.tbxFiltro.Location = new System.Drawing.Point(259, 17);
+            this.tbxFiltro.Name = "tbxFiltro";
+            this.tbxFiltro.Size = new System.Drawing.Size(165, 20);
+            this.tbxFiltro.TabIndex = 9;
             // 
             // gpFiltro
             // 
             this.gpFiltro.Controls.Add(this.btnFiltroBuscar);
             this.gpFiltro.Controls.Add(this.lblCampo);
-            this.gpFiltro.Controls.Add(this.tbxfiltro);
-            this.gpFiltro.Controls.Add(this.cboCriterio);
+            this.gpFiltro.Controls.Add(this.tbxFiltro);
+            this.gpFiltro.Controls.Add(this.cbxCriterio);
             this.gpFiltro.Location = new System.Drawing.Point(12, 72);
             this.gpFiltro.Name = "gpFiltro";
             this.gpFiltro.Size = new System.Drawing.Size(526, 52);
@@ -208,6 +208,7 @@
             this.btnFiltroBuscar.TabIndex = 11;
             this.btnFiltroBuscar.Text = "Buscar";
             this.btnFiltroBuscar.UseVisualStyleBackColor = true;
+            this.btnFiltroBuscar.Click += new System.EventHandler(this.btnFiltroBuscar_Click);
             // 
             // frmMain
             // 
@@ -254,8 +255,8 @@
         private System.Windows.Forms.ComboBox cbxBuscar;
         private System.Windows.Forms.ComboBox cbxCampo;
         private System.Windows.Forms.Label lblCampo;
-        private System.Windows.Forms.ComboBox cboCriterio;
-        private System.Windows.Forms.TextBox tbxfiltro;
+        private System.Windows.Forms.ComboBox cbxCriterio;
+        private System.Windows.Forms.TextBox tbxFiltro;
         private System.Windows.Forms.GroupBox gpFiltro;
         private System.Windows.Forms.Button btnFiltroBuscar;
     }
