@@ -44,6 +44,7 @@
             this.tbxFiltro = new System.Windows.Forms.TextBox();
             this.gpFiltro = new System.Windows.Forms.GroupBox();
             this.btnFiltroBuscar = new System.Windows.Forms.Button();
+            this.btnReset = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvArticulos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxArticulo)).BeginInit();
             this.gpFiltro.SuspendLayout();
@@ -188,13 +189,14 @@
             // 
             // gpFiltro
             // 
+            this.gpFiltro.Controls.Add(this.btnReset);
             this.gpFiltro.Controls.Add(this.btnFiltroBuscar);
             this.gpFiltro.Controls.Add(this.lblCampo);
             this.gpFiltro.Controls.Add(this.tbxFiltro);
             this.gpFiltro.Controls.Add(this.cbxCriterio);
             this.gpFiltro.Location = new System.Drawing.Point(12, 72);
             this.gpFiltro.Name = "gpFiltro";
-            this.gpFiltro.Size = new System.Drawing.Size(526, 52);
+            this.gpFiltro.Size = new System.Drawing.Size(624, 52);
             this.gpFiltro.TabIndex = 10;
             this.gpFiltro.TabStop = false;
             this.gpFiltro.Text = "Filtro";
@@ -209,6 +211,17 @@
             this.btnFiltroBuscar.Text = "Buscar";
             this.btnFiltroBuscar.UseVisualStyleBackColor = true;
             this.btnFiltroBuscar.Click += new System.EventHandler(this.btnFiltroBuscar_Click);
+            // 
+            // btnReset
+            // 
+            this.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReset.Location = new System.Drawing.Point(526, 15);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(75, 23);
+            this.btnReset.TabIndex = 12;
+            this.btnReset.Text = "Reset";
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // frmMain
             // 
@@ -259,6 +272,7 @@
         private System.Windows.Forms.TextBox tbxFiltro;
         private System.Windows.Forms.GroupBox gpFiltro;
         private System.Windows.Forms.Button btnFiltroBuscar;
+        private System.Windows.Forms.Button btnReset;
     }
 }
 

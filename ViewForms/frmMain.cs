@@ -27,6 +27,8 @@ namespace ViewForms
         public frmMain()
         {
             InitializeComponent();
+            _cbxCampo = "";
+            _cbxBuscar = "";
         }
         private void frmMain_Load(object sender, EventArgs e)
         {
@@ -55,45 +57,91 @@ namespace ViewForms
             try
             {
                 _listArticulos = nArticulo.GetAll();
-                //if (_action)
-                //{
-                //if (_cbxFiltroCat != "CATEGORIA")
-                //{
-                //    _listArticulosCategorias = _listArticulos.FindAll(x => x.Categoria.Descripcion == _cbxFiltroCat);
-                //    if(tbxBuscar.Text != "")
-                //    {
-                //        _listaFiltrada = _listArticulosCategorias.FindAll(x => x.Nombre.ToUpper().Contains(tbxBuscar.Text.ToUpper()) || x.Codigo.ToUpper().Contains(tbxBuscar.Text.ToUpper()));
-                //        dgvArticulos.DataSource = null;
-                //        dgvArticulos.DataSource = _listaFiltrada;
-                //    }
-                //    else
-                //    {
-                //        dgvArticulos.DataSource = null;
-                //        dgvArticulos.DataSource = _listArticulosCategorias;
-                //    }
-                //}
-                //else
-                //{
-                //    if (tbxBuscar.Text != "")
-                //    {
-                //        _listaFiltrada = _listArticulos.FindAll(x => x.Nombre.ToUpper().Contains( tbxBuscar.Text.ToUpper()) || x.Codigo.ToUpper().Contains(tbxBuscar.Text.ToUpper()));
-                //        dgvArticulos.DataSource = null;
-                //        dgvArticulos.DataSource = _listaFiltrada;
-                //    }
-                //    else
-                //    {
-                //        dgvArticulos.DataSource = null;
-                //        dgvArticulos.DataSource = _listArticulos;
-                //    }
-                //}
-                //}
-                //else
-                //{
-                //    dgvArticulos.DataSource = _listArticulos;
-                //}
-                dgvArticulos.DataSource = _listArticulos;
-                HideColumns();
-                //ImageLoad(_listArticulos[0].ImagenUrl);
+                if(_cbxCampo != "")
+                {
+                    switch(_cbxCampo)
+                    {
+                        case "Código":
+                            if(tbxBuscar.Text != "")
+                            {
+                                _listaFiltrada = _listArticulos.FindAll(x => x.Codigo.ToUpper().Contains(tbxBuscar.Text.ToUpper()));
+                                ResetDgv(_listaFiltrada);
+                            }
+                            else if(tbxFiltro.Text != "")
+                            {
+                                _listaFiltrada = nArticulo.Filter(cbxCampo.SelectedItem.ToString(), _cbxBuscar, cbxCriterio.SelectedItem.ToString(), tbxFiltro.Text);
+                                ResetDgv(_listaFiltrada);
+                            }
+                            else
+                            {
+                                ResetDgv(_listArticulos);
+                            }
+
+                            break;
+                        case "Nombre":
+                            if(!string.IsNullOrEmpty(tbxBuscar.Text))
+                            {
+                                _listaFiltrada = _listArticulos.FindAll(x => x.Nombre.ToUpper().Contains(tbxBuscar.Text.ToUpper()));
+                                ResetDgv(_listaFiltrada);
+                            }
+                            else if (tbxFiltro.Text != "")
+                            {
+                                _listaFiltrada = nArticulo.Filter(cbxCampo.SelectedItem.ToString(), _cbxBuscar, cbxCriterio.SelectedItem.ToString(), tbxFiltro.Text);
+                                ResetDgv(_listaFiltrada);
+                            }
+                            else
+                            {
+                                ResetDgv(_listArticulos);
+                            }
+                            break;
+                        case "Marca":
+                            if(_cbxBuscar != "")
+                            {
+                                if (tbxFiltro.Text != "")
+                                {
+                                    _listaFiltrada = nArticulo.Filter(cbxCampo.SelectedItem.ToString(), _cbxBuscar, cbxCriterio.SelectedItem.ToString(), tbxFiltro.Text);
+                                    ResetDgv(_listaFiltrada);
+                                }
+                                else
+                                {
+                                    _listaFiltrada = _listArticulos.FindAll(x => x.Marca.Descripcion == _cbxBuscar);
+                                    ResetDgv(_listaFiltrada);
+                                }
+                            }
+                            break;
+                        case "Categoria":
+                            if(_cbxBuscar != "")
+                            {
+                                if (tbxFiltro.Text != "")
+                                {
+                                    _listaFiltrada = nArticulo.Filter(cbxCampo.SelectedItem.ToString(), _cbxBuscar, cbxCriterio.SelectedItem.ToString(), tbxFiltro.Text);
+                                    ResetDgv(_listaFiltrada);
+                                }
+                                else
+                                {
+                                    _listaFiltrada = _listArticulos.FindAll(x => x.Categoria.Descripcion == _cbxBuscar);
+                                    ResetDgv(_listaFiltrada);
+                                }
+                            }
+                            break;
+                        case "Precio":
+                            if (tbxFiltro.Text != "")
+                            {
+                                _listaFiltrada = nArticulo.Filter(cbxCampo.SelectedItem.ToString(), _cbxBuscar, cbxCriterio.SelectedItem.ToString(), tbxFiltro.Text);
+                                ResetDgv(_listaFiltrada);
+                            }
+                            else
+                            {
+                                ResetDgv(_listArticulos);
+                            }
+                            break;
+                    }
+                }
+                else
+                {
+                    ResetDgv(_listArticulos);
+                }
+                
                 _action = false;
             }
             catch (Exception ex)
@@ -117,28 +165,19 @@ namespace ViewForms
         private void tbxBuscar_TextChanged(object sender, EventArgs e)
         {
             var filtro = tbxBuscar.Text;
-            //var opcion = cbxBuscar.SelectedItem.ToString();
-            if (filtro != "" && filtro.Length >= 3) _listaFiltrada = _cbxCampo == "Código" ?  _listArticulos.FindAll(x => x.Codigo.ToUpper().Contains(filtro.ToUpper())) : _listArticulos.FindAll(x => x.Nombre.ToUpper().Contains(filtro.ToUpper()));
-            else _listaFiltrada = _listArticulos;
-            //if (_listArticulosBuscar != null)
-            //{
-            //    if (filtro != "" && filtro.Length >= 3) _listaFiltrada = _listArticulosBuscar.FindAll(x => x.Nombre.ToUpper().Contains(filtro.ToUpper()) || x.Codigo.ToUpper().Contains(filtro.ToUpper()));
-            //    else _listaFiltrada = _listArticulosBuscar;
-            //}
-            //else
-            //{
-            //    if (filtro != "" && filtro.Length >= 3) _listaFiltrada = _listArticulos.FindAll(x => x.Nombre.ToUpper().Contains(filtro.ToUpper()) || x.Codigo.ToUpper().Contains(filtro.ToUpper()));
-            //    else _listaFiltrada = _listArticulos;
-            //}
-            dgvArticulos.DataSource = null;
-            dgvArticulos.DataSource = _listaFiltrada;
-            HideColumns();
+            if (filtro != "" && filtro.Length >= 3)
+            {
+                btnAgregar.Enabled = false;
+                _listaFiltrada = _cbxCampo == "Código" ? _listArticulos.FindAll(x => x.Codigo.ToUpper().Contains(filtro.ToUpper())) : _listArticulos.FindAll(x => x.Nombre.ToUpper().Contains(filtro.ToUpper()));
+            }
+            else 
+            {
+                btnAgregar.Enabled = true;
+                _listaFiltrada = _listArticulos; 
+            }
+            ResetDgv(_listaFiltrada);
         }
-        private void cbxFiltroCategoria_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            
-            
-        }
+
         public void HideColumns()
         {
             dgvArticulos.Columns["Id"].Visible = false;
@@ -172,7 +211,7 @@ namespace ViewForms
             var frmAlta = new frmAlta();
             frmAlta.ShowDialog();
             _action = frmAlta.GetActionState();
-            LoadForm();
+            if(_action) LoadForm();
         }
 
         private void btnModificar_Click(object sender, EventArgs e)
@@ -188,7 +227,7 @@ namespace ViewForms
                 var frmAlta = new frmAlta(seleccionado);
                 frmAlta.ShowDialog();
                 _action = frmAlta.GetActionState();
-                LoadForm();
+                if (_action) LoadForm();
             }
             catch (Exception ex)
             {
@@ -211,7 +250,7 @@ namespace ViewForms
                 {
                     var seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
                     _action = nArticulo.Delete(seleccionado);
-                    LoadForm();
+                    if (_action) LoadForm();
                 }
             }
             catch (Exception ex)
@@ -242,50 +281,58 @@ namespace ViewForms
         private void cbxBuscar_SelectedIndexChanged(object sender, EventArgs e)
         {
             _cbxBuscar = cbxBuscar.SelectedItem.ToString();
-            //if (_listArticulos != null)
-            //{
-                if (_cbxBuscar == "")
-                {
-                    //gpFiltro.Enabled = false;
-                    //tbxBuscar.Text = "";
-                    _listArticulosBuscar = null;
-                    dgvArticulos.DataSource = null;
-                    dgvArticulos.DataSource = _listArticulos;
-                    HideColumns();
-                }
-                else
-                {
-                    //gpFiltro.Enabled = true;
-                    //tbxBuscar.Text = "";
-                    _listArticulosBuscar = _cbxCampo == "Categoria" ? _listArticulos.FindAll(x => x.Categoria.Descripcion == _cbxBuscar) : _listArticulos.FindAll(x => x.Marca.Descripcion == _cbxBuscar);
-                    dgvArticulos.DataSource = null;
-                    dgvArticulos.DataSource = _listArticulosBuscar;
-                    HideColumns();
-                }
-
-            //}
-        }
-
-        private void cbxCampo_SelectedIndexChanged(object sender, EventArgs e)
-        {
             tbxFiltro.Text = "";
-            _cbxCampo = cbxCampo.SelectedItem.ToString();
-            if(_cbxCampo != "")
+            if (_cbxBuscar == "")
+            {
+                gpFiltro.Visible = false;
+                _listArticulosBuscar = null;
+                ResetDgv(_listArticulos);
+            }
+            else
             {
                 gpFiltro.Visible = true;
-                gpFiltro.Enabled = true;
-                cbxCriterio.Items.Clear();
+                cbxCampoLoad(_cbxCampo);
+                _listArticulosBuscar = _cbxCampo == "Categoria" ? _listArticulos.FindAll(x => x.Categoria.Descripcion == _cbxBuscar) : _listArticulos.FindAll(x => x.Marca.Descripcion == _cbxBuscar);
+                if (_listArticulosBuscar.Count > 0) gpFiltro.Enabled = true;
+                else gpFiltro.Enabled = false;
+                ResetDgv(_listArticulosBuscar);
+            }
+        }
+
+        private void cbxCampoLoad(string cbxCampo)
+        {
+            cbxCriterio.Items.Clear();
+            if (cbxCampo == "Código" || cbxCampo == "Nombre")
+            {
                 cbxCriterio.Items.Add("Empieza con");
                 cbxCriterio.Items.Add("Termina con");
                 cbxCriterio.Items.Add("Contiene");
             }
             else
             {
+                cbxCriterio.Items.Add(">");
+                cbxCriterio.Items.Add(">=");
+                cbxCriterio.Items.Add("<");
+                cbxCriterio.Items.Add("<=");
+                cbxCriterio.Items.Add("=");
+            }
+        }
+
+        private void cbxCampo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            tbxFiltro.Text = "";
+            tbxBuscar.Text = "";
+            _cbxCampo = cbxCampo.SelectedItem.ToString();
+            ResetDgv(_listArticulos);
+            if(_cbxCampo != "")
+            {
+                gpFiltro.Visible = true;
+                gpFiltro.Enabled = true;
+                cbxCampoLoad(_cbxCampo);
+            }
+            else
+            {
                 gpFiltro.Visible = false;
-                dgvArticulos.DataSource = null;
-                dgvArticulos.DataSource = _listArticulos;
-                HideColumns();
-                //gpFiltro.Enabled = false;
             }
             switch (_cbxCampo)
             {
@@ -306,7 +353,7 @@ namespace ViewForms
                 case "Marca":
                     tbxBuscar.Visible = false;
                     gpFiltro.Visible = false;
-                    //lblCampo.Text = "Marca";
+                    lblCampo.Text = "Precio";
                     cbxBuscar.Visible = true;
                     cbxBuscar.DataSource = _listMarcas;
                     cbxBuscar.ValueMember = "Id";
@@ -317,7 +364,7 @@ namespace ViewForms
                 case "Categoria":
                     tbxBuscar.Visible = false;
                     gpFiltro.Visible = false;
-                    //lblCampo.Text = "Categoria";
+                    lblCampo.Text = "Precio";
                     cbxBuscar.Visible = true;
                     cbxBuscar.DataSource = _listCategorias;
                     cbxBuscar.ValueMember = "Id";
@@ -328,12 +375,8 @@ namespace ViewForms
                     tbxBuscar.Visible = false;
                     cbxBuscar.Visible = false;
                     lblCampo.Text = "Precio";
-                    cbxCriterio.Items.Clear();
-                    cbxCriterio.Items.Add(">");
-                    cbxCriterio.Items.Add(">=");
-                    cbxCriterio.Items.Add("<");
-                    cbxCriterio.Items.Add("<=");
-                    cbxCriterio.Items.Add("=");
+                    cbxCampoLoad(_cbxCampo);
+
                     break;
             }
         }
@@ -343,6 +386,7 @@ namespace ViewForms
             var nArticulo = new NArticulo();
             try
             {
+                btnAgregar.Enabled = false;
                 string campo;
                 if (cbxCampo.SelectedItem != null) campo = cbxCampo.SelectedItem.ToString();
                 else 
@@ -363,9 +407,11 @@ namespace ViewForms
 
                 if(campo != "" && criterio != "" && filtro != "")
                 {
-                    dgvArticulos.DataSource = null;
-                    dgvArticulos.DataSource = nArticulo.Filter(campo,criterio,filtro);
-                    HideColumns();
+                    tbxBuscar.Text = "";
+                    string campoSecundario = "";
+                    if(_cbxBuscar != "") campoSecundario = _cbxBuscar;
+                    _listaFiltrada = nArticulo.Filter(campo, campoSecundario, criterio, filtro );
+                    ResetDgv(_listaFiltrada);
                 }
 
             }
@@ -374,6 +420,28 @@ namespace ViewForms
 
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            btnAgregar.Enabled = true;
+            tbxFiltro.Text = "";
+            cbxCampoLoad(_cbxCampo);
+            if(_cbxCampo == "Categoria" || _cbxCampo == "Marca")
+            {
+                ResetDgv(_listArticulosBuscar);
+            }
+            else
+            {
+                ResetDgv(_listArticulos);
+            }
+        }
+
+        private void ResetDgv<T>(List<T> lista)
+        {
+            dgvArticulos.DataSource = null;
+            dgvArticulos.DataSource = lista;
+            HideColumns();
         }
     }
 }

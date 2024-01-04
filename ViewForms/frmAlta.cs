@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Dominio;
 using Negocio;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ViewForms
 {
@@ -107,7 +106,7 @@ namespace ViewForms
                 _articulo.Categoria = (Categoria)cbxCategoria.SelectedItem;
                 _articulo.ImagenUrl = tbxImagenUrl.Text;
                 _articulo.Precio = Decimal.Parse(tbxPrecio.Text);
-                Console.WriteLine(_articulo.Precio);
+                //Console.WriteLine(_articulo.Precio);
                 if(_articulo.Id != 0)
                 {
                     if (nArticulo.Modify(_articulo))
