@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Dynamic;
 using System.Linq;
 using System.Text;
@@ -41,25 +42,10 @@ namespace Negocio
 			var list = new List<Articulo>();
 			try
 			{
-				//conection.SetQuery("SELECT A.Id AId,A.Codigo ACod,A.Nombre ANom,A.Descripcion ADes,A.IdMarca AIdMarca,M.Descripcion MDes,A.IdCategoria AIdCat,C.Descripcion as CDes,A.ImagenUrl AImgUrl,A.Precio APrecio FROM ARTICULOS as A INNER JOIN CATEGORIAS as C ON A.IdCategoria = C.Id INNER JOIN MARCAS as M ON A.IdMarca = M.Id");
 				conection.SetQuery(_getAll);
 				conection.ExecuteQuery();
 				while(conection.Reader.Read()) 
 				{
-					//var articulo = new Articulo();
-					//articulo.Id = (int)conection.Reader["AId"];
-					//articulo.Codigo = (string)conection.Reader["ACod"];
-					//articulo.Nombre = (string)conection.Reader["ANom"];
-					//articulo.Descripcion = (string)conection.Reader["ADes"];
-					//articulo.Marca = new Marca();
-					//articulo.Marca.Id = (int)conection.Reader["AIdMarca"];
-					//articulo.Marca.Descripcion = (string)conection.Reader["MDes"];
-					//articulo.Categoria = new Categoria();
-					//articulo.Categoria.Id = (int)conection.Reader["AIdCat"];
-					//articulo.Categoria.Descripcion = (string)conection.Reader["CDes"];
-					//articulo.ImagenUrl = (string)conection.Reader["AImgUrl"];
-					//articulo.Precio = Math.Round(Convert.ToDecimal(conection.Reader["APrecio"]), 2);
-
 					list.Add(GetArticulo(conection));
 				}
 				return list;
@@ -141,7 +127,7 @@ namespace Negocio
 			}
         }
 
-		public List<Articulo> Filter(string campo, string criterio, string filtro)
+		public List<Articulo> Filter(string campo, string campoSecundario, string criterio, string filtro )
 		{
             var list = new List<Articulo>();
 			var query = _getAll;
@@ -179,11 +165,16 @@ namespace Negocio
                                 break;
                         }
                         break;
+					case "Categoria":
+						query += string.Format("WHERE C.Descripcion = '{0}' AND A.Precio {1} {2}", campoSecundario,criterio,filtro);
+						break;
+					case "Marca":
+                        query += string.Format("WHERE M.Descripcion = '{0}' AND A.Precio {1} {2}", campoSecundario, criterio, filtro);
+                        break;
 					case "Precio":
                         query += string.Format("WHERE A.Precio {0} {1}", criterio,filtro);
                         break;
 				}
-				//Console.WriteLine(query);
 				conection.SetQuery(query);
 				conection.ExecuteQuery();
 				while (conection.Reader.Read())
