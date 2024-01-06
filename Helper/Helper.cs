@@ -19,5 +19,10 @@ namespace Helper
                 //pbxArticulo.Load("https://editorial.unc.edu.ar/wp-content/uploads/sites/33/2022/09/placeholder.png");
             }
         }
+
+        public static bool ValidarAlta(string codigo, string nombre, string marca, string categoria, string precio)
+        {
+            return false;
+        }
     }
 }
