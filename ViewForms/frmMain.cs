@@ -34,10 +34,10 @@ namespace ViewForms
         {
             var nMarca = new NMarca();
             _listMarcas = nMarca.GetAll();
-            _listMarcas.Insert(0, new Marca { Id = 0, Descripcion = "" });
+            //_listMarcas.Insert(0, new Marca { Id = 0, Descripcion = "" });
             var nCategoria = new NCategoria();
             _listCategorias = nCategoria.GetAll();
-            _listCategorias.Insert(0, new Categoria { Id = 0, Descripcion = "" });
+            //_listCategorias.Insert(0, new Categoria { Id = 0, Descripcion = "" });
 
             tbxBuscar.Visible = false;
             gpFiltro.Visible = false;
@@ -280,23 +280,27 @@ namespace ViewForms
 
         private void cbxBuscar_SelectedIndexChanged(object sender, EventArgs e)
         {
-            _cbxBuscar = cbxBuscar.SelectedItem.ToString();
-            tbxFiltro.Text = "";
-            if (_cbxBuscar == "")
+            if(cbxBuscar.SelectedIndex > -1)
             {
-                gpFiltro.Visible = false;
-                _listArticulosBuscar = null;
-                ResetDgv(_listArticulos);
+                _cbxBuscar = cbxBuscar.SelectedItem.ToString();
+                tbxFiltro.Text = "";
+                if (_cbxBuscar == "")
+                {
+                    gpFiltro.Visible = false;
+                    _listArticulosBuscar = null;
+                    ResetDgv(_listArticulos);
+                }
+                else
+                {
+                    gpFiltro.Visible = true;
+                    cbxCampoLoad(_cbxCampo);
+                    _listArticulosBuscar = _cbxCampo == "Categoria" ? _listArticulos.FindAll(x => x.Categoria.Descripcion == _cbxBuscar) : _listArticulos.FindAll(x => x.Marca.Descripcion == _cbxBuscar);
+                    if (_listArticulosBuscar.Count > 0) gpFiltro.Enabled = true;
+                    else gpFiltro.Enabled = false;
+                    ResetDgv(_listArticulosBuscar);
+                }
             }
-            else
-            {
-                gpFiltro.Visible = true;
-                cbxCampoLoad(_cbxCampo);
-                _listArticulosBuscar = _cbxCampo == "Categoria" ? _listArticulos.FindAll(x => x.Categoria.Descripcion == _cbxBuscar) : _listArticulos.FindAll(x => x.Marca.Descripcion == _cbxBuscar);
-                if (_listArticulosBuscar.Count > 0) gpFiltro.Enabled = true;
-                else gpFiltro.Enabled = false;
-                ResetDgv(_listArticulosBuscar);
-            }
+            
         }
 
         private void cbxCampoLoad(string cbxCampo)
@@ -355,10 +359,12 @@ namespace ViewForms
                     gpFiltro.Visible = false;
                     lblCampo.Text = "Precio";
                     cbxBuscar.Visible = true;
+                    cbxBuscar.SelectedIndexChanged -= cbxBuscar_SelectedIndexChanged;
                     cbxBuscar.DataSource = _listMarcas;
                     cbxBuscar.ValueMember = "Id";
                     cbxBuscar.DisplayMember = "Descripcion";
-                    cbxBuscar.SelectedIndex = 0;
+                    cbxBuscar.SelectedIndex = -1;
+                    cbxBuscar.SelectedIndexChanged += cbxBuscar_SelectedIndexChanged;
 
                     break;
                 case "Categoria":
@@ -366,10 +372,12 @@ namespace ViewForms
                     gpFiltro.Visible = false;
                     lblCampo.Text = "Precio";
                     cbxBuscar.Visible = true;
+                    cbxBuscar.SelectedIndexChanged -= cbxBuscar_SelectedIndexChanged;
                     cbxBuscar.DataSource = _listCategorias;
                     cbxBuscar.ValueMember = "Id";
                     cbxBuscar.DisplayMember = "Descripcion";
-                    cbxBuscar.SelectedIndex = 0;
+                    cbxBuscar.SelectedIndex = -1;
+                    cbxBuscar.SelectedIndexChanged += cbxBuscar_SelectedIndexChanged;
                     break;
                 case "Precio":
                     tbxBuscar.Visible = false;
@@ -441,6 +449,7 @@ namespace ViewForms
         {
             dgvArticulos.DataSource = null;
             dgvArticulos.DataSource = lista;
+            if (lista.Count == 0) ImageLoad("");
             HideColumns();
         }
     }

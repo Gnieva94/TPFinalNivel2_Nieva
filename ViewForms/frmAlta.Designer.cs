@@ -45,6 +45,12 @@
             this.btnAceptar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.pbxArticulo = new System.Windows.Forms.PictureBox();
+            this.lblValNombre = new System.Windows.Forms.Label();
+            this.lblValMarca = new System.Windows.Forms.Label();
+            this.lblValCat = new System.Windows.Forms.Label();
+            this.lblValPrecio = new System.Windows.Forms.Label();
+            this.lblValCod = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbxArticulo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -194,19 +200,93 @@
             // 
             // pbxArticulo
             // 
-            this.pbxArticulo.Location = new System.Drawing.Point(269, 13);
+            this.pbxArticulo.Location = new System.Drawing.Point(319, 13);
             this.pbxArticulo.Name = "pbxArticulo";
             this.pbxArticulo.Size = new System.Drawing.Size(173, 170);
             this.pbxArticulo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbxArticulo.TabIndex = 16;
             this.pbxArticulo.TabStop = false;
             // 
+            // lblValNombre
+            // 
+            this.lblValNombre.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblValNombre.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblValNombre.Location = new System.Drawing.Point(250, 33);
+            this.lblValNombre.Margin = new System.Windows.Forms.Padding(0);
+            this.lblValNombre.Name = "lblValNombre";
+            this.lblValNombre.Size = new System.Drawing.Size(25, 25);
+            this.lblValNombre.TabIndex = 18;
+            this.lblValNombre.Text = "❌";
+            this.lblValNombre.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblValMarca
+            // 
+            this.lblValMarca.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblValMarca.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblValMarca.Location = new System.Drawing.Point(251, 150);
+            this.lblValMarca.Margin = new System.Windows.Forms.Padding(0);
+            this.lblValMarca.Name = "lblValMarca";
+            this.lblValMarca.Size = new System.Drawing.Size(25, 23);
+            this.lblValMarca.TabIndex = 20;
+            this.lblValMarca.Text = "❌";
+            this.lblValMarca.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblValCat
+            // 
+            this.lblValCat.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblValCat.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblValCat.Location = new System.Drawing.Point(251, 176);
+            this.lblValCat.Margin = new System.Windows.Forms.Padding(0);
+            this.lblValCat.Name = "lblValCat";
+            this.lblValCat.Size = new System.Drawing.Size(24, 22);
+            this.lblValCat.TabIndex = 21;
+            this.lblValCat.Text = "❌";
+            this.lblValCat.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblValPrecio
+            // 
+            this.lblValPrecio.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblValPrecio.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblValPrecio.Location = new System.Drawing.Point(251, 229);
+            this.lblValPrecio.Margin = new System.Windows.Forms.Padding(0);
+            this.lblValPrecio.Name = "lblValPrecio";
+            this.lblValPrecio.Size = new System.Drawing.Size(24, 22);
+            this.lblValPrecio.TabIndex = 23;
+            this.lblValPrecio.Text = "❌";
+            this.lblValPrecio.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblValCod
+            // 
+            this.lblValCod.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblValCod.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.lblValCod.Location = new System.Drawing.Point(250, 11);
+            this.lblValCod.Margin = new System.Windows.Forms.Padding(0);
+            this.lblValCod.Name = "lblValCod";
+            this.lblValCod.Size = new System.Drawing.Size(24, 22);
+            this.lblValCod.TabIndex = 17;
+            this.lblValCod.Text = "❌";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(147, 255);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(103, 13);
+            this.label1.TabIndex = 24;
+            this.label1.Text = "Solo hasta 12 cifras.";
+            // 
             // frmAlta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.ClientSize = new System.Drawing.Size(460, 322);
+            this.ClientSize = new System.Drawing.Size(504, 322);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblValPrecio);
+            this.Controls.Add(this.lblValCat);
+            this.Controls.Add(this.lblValMarca);
+            this.Controls.Add(this.lblValNombre);
+            this.Controls.Add(this.lblValCod);
             this.Controls.Add(this.pbxArticulo);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnAceptar);
@@ -253,5 +333,11 @@
         private System.Windows.Forms.Button btnAceptar;
         private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.PictureBox pbxArticulo;
+        private System.Windows.Forms.Label lblValNombre;
+        private System.Windows.Forms.Label lblValMarca;
+        private System.Windows.Forms.Label lblValCat;
+        private System.Windows.Forms.Label lblValPrecio;
+        private System.Windows.Forms.Label lblValCod;
+        private System.Windows.Forms.Label label1;
     }
 }

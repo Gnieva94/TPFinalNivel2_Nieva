@@ -43,8 +43,8 @@
             this.cbxCriterio = new System.Windows.Forms.ComboBox();
             this.tbxFiltro = new System.Windows.Forms.TextBox();
             this.gpFiltro = new System.Windows.Forms.GroupBox();
-            this.btnFiltroBuscar = new System.Windows.Forms.Button();
             this.btnReset = new System.Windows.Forms.Button();
+            this.btnFiltroBuscar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvArticulos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxArticulo)).BeginInit();
             this.gpFiltro.SuspendLayout();
@@ -67,14 +67,14 @@
             this.dgvArticulos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvArticulos.ShowCellToolTips = false;
             this.dgvArticulos.ShowEditingIcon = false;
-            this.dgvArticulos.Size = new System.Drawing.Size(543, 255);
+            this.dgvArticulos.Size = new System.Drawing.Size(571, 255);
             this.dgvArticulos.TabIndex = 0;
             this.dgvArticulos.SelectionChanged += new System.EventHandler(this.dgvArticulos_SelectionChanged);
             // 
             // pbxArticulo
             // 
             this.pbxArticulo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pbxArticulo.Location = new System.Drawing.Point(571, 163);
+            this.pbxArticulo.Location = new System.Drawing.Point(614, 163);
             this.pbxArticulo.Name = "pbxArticulo";
             this.pbxArticulo.Size = new System.Drawing.Size(266, 255);
             this.pbxArticulo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -201,17 +201,6 @@
             this.gpFiltro.TabStop = false;
             this.gpFiltro.Text = "Filtro";
             // 
-            // btnFiltroBuscar
-            // 
-            this.btnFiltroBuscar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnFiltroBuscar.Location = new System.Drawing.Point(445, 16);
-            this.btnFiltroBuscar.Name = "btnFiltroBuscar";
-            this.btnFiltroBuscar.Size = new System.Drawing.Size(75, 23);
-            this.btnFiltroBuscar.TabIndex = 11;
-            this.btnFiltroBuscar.Text = "Buscar";
-            this.btnFiltroBuscar.UseVisualStyleBackColor = true;
-            this.btnFiltroBuscar.Click += new System.EventHandler(this.btnFiltroBuscar_Click);
-            // 
             // btnReset
             // 
             this.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -223,12 +212,23 @@
             this.btnReset.UseVisualStyleBackColor = true;
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
+            // btnFiltroBuscar
+            // 
+            this.btnFiltroBuscar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnFiltroBuscar.Location = new System.Drawing.Point(445, 16);
+            this.btnFiltroBuscar.Name = "btnFiltroBuscar";
+            this.btnFiltroBuscar.Size = new System.Drawing.Size(75, 23);
+            this.btnFiltroBuscar.TabIndex = 11;
+            this.btnFiltroBuscar.Text = "Buscar";
+            this.btnFiltroBuscar.UseVisualStyleBackColor = true;
+            this.btnFiltroBuscar.Click += new System.EventHandler(this.btnFiltroBuscar_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.ClientSize = new System.Drawing.Size(852, 588);
+            this.ClientSize = new System.Drawing.Size(892, 588);
             this.Controls.Add(this.gpFiltro);
             this.Controls.Add(this.cbxCampo);
             this.Controls.Add(this.cbxBuscar);

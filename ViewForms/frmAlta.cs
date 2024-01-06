@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Dominio;
@@ -15,6 +16,8 @@ namespace ViewForms
     public partial class frmAlta : Form
     {
         private Articulo _articulo = null;
+        private List<Categoria> _listCategoria;
+        private List<Marca> _listMarca;
         private bool _detalle = false;
         private bool _action = false;
         public frmAlta()
@@ -42,13 +45,18 @@ namespace ViewForms
             var nMarca = new NMarca();
             try
             {
+                VisibleValidateLabel(false);
                 _action = false;
-                cbxCategoria.DataSource = nCategoria.GetAll();
+                _listCategoria = nCategoria.GetAll();
+                cbxCategoria.DataSource = _listCategoria;
                 cbxCategoria.ValueMember = "Id";
                 cbxCategoria.DisplayMember = "Descripcion";
-                cbxMarca.DataSource = nMarca.GetAll();
+                cbxCategoria.SelectedIndex = -1;
+                _listMarca = nMarca.GetAll();
+                cbxMarca.DataSource = _listMarca;
                 cbxMarca.ValueMember = "Id";
                 cbxMarca.DisplayMember = "Descripcion";
+                cbxMarca.SelectedIndex = -1;
 
                 if (_articulo != null)
                 {
@@ -92,11 +100,110 @@ namespace ViewForms
             Close();
         }
 
+
+        private bool SoloDoceCifras(string numero)
+        {
+            var cadena = numero.Split(',');
+            return cadena[0].Length <= 12;
+        }
+
+        private bool ValidateDecimal(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+            {
+                MessageBox.Show("El campo Precio no puede estar vacío");
+                return false;
+            }
+
+            decimal result;
+            if (!decimal.TryParse(input, out result))
+            {
+                MessageBox.Show("Decimal no válido");
+                return false;
+            }
+
+
+            if (result != Math.Round(result, 2))
+            {
+                MessageBox.Show("El precio solo debe tener dos decimales");
+                return false;
+            }
+
+            if (input.StartsWith("-") || input.EndsWith("-")) return false;
+
+            if (!SoloDoceCifras(input)) return false;
+
+            return true;
+        }
+
+        private bool ValidarAlta()
+        {
+            bool retornar = false;
+            VisibleValidateLabel(true);
+            if (tbxCodigo.Text.Length == 0)
+            {
+                lblValCod.Text = "❌";
+                retornar = true;
+            }
+            else
+            {
+                lblValCod.Text = "✔";
+            }
+            if(tbxNombre.Text.Length == 0)
+            {
+                lblValNombre.Text = "❌";
+                retornar = true;
+            }
+            else
+            {
+                lblValNombre.Text = "✔";
+            }
+            if(cbxMarca.SelectedIndex == -1)
+            {
+                lblValMarca.Text = "❌";
+                retornar = true;
+            }
+            else
+            {
+                lblValMarca.Text = "✔";
+            }
+            if(cbxCategoria.SelectedIndex == -1)
+            {
+                lblValCat.Text = "❌";
+                retornar = true;
+            }
+            else
+            {
+                lblValCat.Text = "✔";
+            }
+            if (!ValidateDecimal(tbxPrecio.Text))
+            {
+                
+                lblValPrecio.Text = "❌";
+                retornar = true;
+            }
+            else
+            {
+                lblValPrecio.Text = "✔";
+            }
+            return retornar;
+        }
+
+        private void VisibleValidateLabel(bool state)
+        {
+            lblValCod.Visible = state;
+            lblValNombre.Visible = state;
+            lblValMarca.Visible = state;
+            lblValCat.Visible = state;
+            lblValPrecio.Visible = state;
+        }
+
         private void btnAceptar_Click(object sender, EventArgs e)
         {
             var nArticulo = new NArticulo();
             try
             {
+                if (ValidarAlta()) return;
                 
                 if (_articulo == null) _articulo = new Articulo();
                 _articulo.Codigo = tbxCodigo.Text;
@@ -106,7 +213,7 @@ namespace ViewForms
                 _articulo.Categoria = (Categoria)cbxCategoria.SelectedItem;
                 _articulo.ImagenUrl = tbxImagenUrl.Text;
                 _articulo.Precio = Decimal.Parse(tbxPrecio.Text);
-                //Console.WriteLine(_articulo.Precio);
+
                 if(_articulo.Id != 0)
                 {
                     if (nArticulo.Modify(_articulo))
@@ -121,6 +228,14 @@ namespace ViewForms
                     if (nArticulo.Insert(_articulo))
                     {
                         MessageBox.Show("Insertado exitosamente.");
+                        VisibleValidateLabel(false);
+                        tbxCodigo.Text = "";
+                        tbxNombre.Text = "";
+                        tbxDescripcion.Text = "";
+                        cbxCategoria.SelectedIndex = -1;
+                        cbxMarca.SelectedIndex = -1;
+                        tbxImagenUrl.Text = "";
+                        tbxPrecio.Text = "";
                         _action = true;
                     }
                     else MessageBox.Show("No pudo ser insertado el articulo.");
@@ -159,5 +274,6 @@ namespace ViewForms
                 e.KeyChar = ',';
             }
         }
+
     }
 }
